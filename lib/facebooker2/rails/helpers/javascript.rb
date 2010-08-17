@@ -31,8 +31,12 @@ module Facebooker2
               s.appendChild(e);
             }());
           </script>
-        JAVASCRIPT
-        block_given? ? concat(js) : js
+          JAVASCRIPT
+          if ::Rails::VERSION::STRING > "2"
+            js.html_safe
+          else
+            block_given? ? concat(js) : js
+          end
         end
       end
     end
