@@ -2,6 +2,22 @@ module Facebooker2
   module Rails
     module Helpers
       module Javascript
+        def fb_concat(str)
+          if ::Rails::VERSION::STRING.to_i > 2
+            str
+          else
+            concat(str)
+          end
+        end
+
+        def fb_html_safe(str)
+          if str.respond_to?(:html_safe)
+            str.html_safe
+          else
+            str
+          end
+        end
+
         def fb_connect_async_js(app_id=Facebooker2.app_id,options={},&proc)
           opts = Hash.new(true).merge!(options)
           cookie = opts[:cookie]
@@ -32,11 +48,7 @@ module Facebooker2
             }());
           </script>
           JAVASCRIPT
-          if ::Rails::VERSION::STRING.to_i > 2
-            js.html_safe
-          else
-            block_given? ? concat(js) : js
-          end
+          fb_html_safe(block_given? ? fb_concat(js) : js)
         end
       end
     end
