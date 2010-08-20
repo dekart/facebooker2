@@ -32,7 +32,7 @@ module Facebooker2
             }());
           </script>
           JAVASCRIPT
-          if ::Rails::VERSION::STRING > "2"
+          if ::Rails::VERSION::STRING.to_i > 2
             js.html_safe
           else
             block_given? ? concat(js) : js
