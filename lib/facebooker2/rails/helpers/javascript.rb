@@ -40,7 +40,7 @@ module Facebooker2
             }());
           </script>
         JAVASCRIPT
-        block_given? ? concat(js) : js
+        js
         end
       end
     end
