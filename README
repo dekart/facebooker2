@@ -36,7 +36,7 @@ shared login partial.
 <%= fb_connect_async_js %>
 <% if current_facebook_user %>
    <%= "Welcome #{current_facebook_user.first_name} #{current_facebook_user.last_name}!" %>
-   or 
+   or
    <%= "Hello #{fb_name(current_facebook_user, :useyou => false)}!" # link to facebook profile
     %>
   <%= fb_logout_link("Logout of fb", request.url) %><br />
@@ -48,4 +48,41 @@ shared login partial.
   <%= fb_login_and_redirect('<your URL here>', :perms => 'email,user_birthday') %>
 <% end %>
 
+Using with Canvas Applications
+==============================
+
+To improve integration with Facebook and iframe canvas applications, the primary goal
+being things like FB.ui work as a dialog rather than a popup, the application
+needs to be authenticated against the user's account via OAuth before use.
+
+0. Prerequisite: You need a Facebook app. Have your canvas page name handy.
+
+1. Install facebooker2.
+
+2. Create config/facebooker.yml as above, but add the following key:
+
+production:
+  canvas_page_name: <your canvas page name>
+
+3. Add the following lines to your app/controllers/application_controller.rb
+
+include Facebooker2::Rails::Controller::CanvasOAuth
+
+ensure_canvas_connected_to_facebook :oauth_url, 'publish_stream'
+create_facebook_oauth_callback :oauth
+
+rescue_from Facebooker2::OAuthException do |exception|
+  redirect_to 'http://www.facebook.com/'
+end
+
+4. Create a route that generates a URL for the OAuth callback and calls the appropriate
+action on your controller:
+
+map.oauth '/oauth', :controller => :application, :action => :oauth
+
+5. Your canvas application will now ensure that the current user has authorized
+the application before anything else is allowed.  The authorization and FB.ui dialogs
+will appear inline instead of as popups, improving user experience.
+
 Copyright (c) 2010 Mike Mangino, released under the MIT license
+Copyright (c) 2010 John Bintz, released under the MIT license

@@ -2,6 +2,13 @@ module Facebooker2
   module Rails
     module Helpers
       module Javascript
+        def fb_concat(str)
+          if ::Rails::VERSION::STRING.to_i > 2
+            str
+          else
+            concat(str)
+          end
+        end
         
         def fb_html_safe(str)
           if str.respond_to?(:html_safe)
@@ -16,6 +23,7 @@ module Facebooker2
           cookie = opts[:cookie]
           status = opts[:status]
           xfbml = opts[:xfbml]
+          locale = options[:locale] || "en_US"
           extra_js = capture(&proc) if block_given?
           js = <<-JAVASCRIPT
           <script>
@@ -34,14 +42,14 @@ module Facebooker2
               s.setAttribute('id','fb-root'); 
               document.documentElement.getElementsByTagName("body")[0].appendChild(s);
               var e = document.createElement('script');
-              e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+              e.src = document.location.protocol + '//connect.facebook.net/#{locale}/all.js';
               e.async = true;
               s.appendChild(e);
             }());
           </script>
-        JAVASCRIPT
-        escaped_js = fb_html_safe(js)
-        block_given? ? concat(escaped_js) : escaped_js
+          JAVASCRIPT
+
+          fb_html_safe(block_given? ? fb_concat(js) : js)
         end
       end
     end
