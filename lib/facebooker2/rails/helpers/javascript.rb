@@ -49,7 +49,9 @@ module Facebooker2
           </script>
           JAVASCRIPT
 
-          fb_html_safe(block_given? ? fb_concat(js) : js)
+          js = fb_html_safe(js)
+
+          block_given? ? fb_concat(js) : js
         end
       end
     end
