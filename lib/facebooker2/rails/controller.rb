@@ -5,6 +5,9 @@ module Facebooker2
     module Controller
 
       def self.included(controller)
+        controller.send(:include, CanvasOAuth)
+        controller.send(:include, UrlRewriting)
+
         controller.helper Facebooker2::Rails::Helpers
         controller.helper_method :current_facebook_user
         controller.helper_method :current_facebook_client
