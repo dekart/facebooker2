@@ -43,9 +43,9 @@ module Facebooker2
   end
 end
 
-
 require "facebooker2/rails/controller"
 require "facebooker2/rails/controller/canvas_oauth"
+require "facebooker2/rails/controller/url_rewriting"
 require "facebooker2/rails/helpers/facebook_connect"
 require "facebooker2/rails/helpers/javascript"
 require "facebooker2/rails/helpers/request_forms"
