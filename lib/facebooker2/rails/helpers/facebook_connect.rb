@@ -40,10 +40,15 @@ module Facebooker2
           link_to_function text, function, *args
         end
         
-        def fb_server_fbml(style=nil,&proc)
-          style_string=" style=\"#{style}\"" if style
+        def fb_server_fbml(style = nil, &proc)
           content = capture(&proc)
-          concat("<fb:serverFbml#{style_string}><script type='text/fbml'>#{content}</script></fb:serverFbml>")
+
+          concat(
+            content_tag('fb:serverFbml',
+              content_tag(:script, content.html_safe, :type => 'text/fbml'),
+              :style => style
+            )
+          )
         end
       end
     end
