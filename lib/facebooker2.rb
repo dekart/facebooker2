@@ -4,7 +4,7 @@ require "mogli"
 module Facebooker2
   class NotConfigured < Exception; end
   class << self
-    attr_accessor :api_key, :secret, :app_id, :canvas_page_name
+    attr_accessor :api_key, :secret, :app_id, :canvas_page_name, :callback_url
   end
 
   def self.secret
@@ -24,6 +24,7 @@ module Facebooker2
     self.secret = hash[:secret]
     self.app_id = hash[:app_id]
     self.canvas_page_name = hash[:canvas_page_name]
+    self.callback_url = hash[:callback_url]
   end
 
   def self.load_facebooker_yaml
