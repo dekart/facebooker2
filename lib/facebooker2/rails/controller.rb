@@ -108,6 +108,21 @@ module Facebooker2
         end
       end
 
+      def redirect_from_iframe(*args)
+        redirect_url = url_for(*args)
+
+        render :layout => false, :text => <<-HTML
+          <html><head>
+            <script type="text/javascript">
+              window.top.location.href = #{redirect_url.to_json};
+            </script>
+            <noscript>
+              <meta http-equiv="refresh" content="0;url=#{redirect_url}" />
+              <meta http-equiv="window-target" content="_top" />
+            </noscript>
+          </head></html>
+        HTML
+      end
     end
   end
 end
