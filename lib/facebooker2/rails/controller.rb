@@ -45,8 +45,12 @@ module Facebooker2
 
         hash_data = fb_cookie_hash_for_app_id(app_id)
 
-        if hash_data and fb_cookie_signature_correct?(fb_cookie_hash_for_app_id(app_id), Facebooker2.secret)
-          fb_create_user_and_client(hash_data["access_token"], hash_data["expires"], hash_data["uid"])
+        if hash_data and fb_cookie_signature_correct?(hash_data, Facebooker2.secret)
+          fb_create_user_and_client(
+            hash_data["access_token"],
+            hash_data["expires"],
+            hash_data["uid"]
+          )
         end
       end
 
@@ -55,7 +59,7 @@ module Facebooker2
         client  = Mogli::Client.new(token,expires.to_i)
         user    = Mogli::User.new(:id => userid)
 
-        fb_sign_in_user_and_client(user,client)
+        fb_sign_in_user_and_client(user, client)
       end
 
 
@@ -129,7 +133,9 @@ module Facebooker2
 
 
       def fb_signed_request_sig_valid?(sig, encoded)
-        base64 = Base64.encode64(HMAC::SHA256.digest(Facebooker2.secret,encoded))
+        base64 = Base64.encode64(
+          HMAC::SHA256.digest(Facebooker2.secret, encoded)
+        )
 
         #now make the url changes that facebook makes
         url_escaped_base64 = base64.gsub(/=*\n?$/, "").tr("+/", "-_")
