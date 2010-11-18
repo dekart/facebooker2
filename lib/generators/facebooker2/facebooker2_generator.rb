@@ -7,15 +7,33 @@ class Facebooker2Generator < Rails::Generators::Base
     template  'facebooker.yml', 'config/facebooker.yml'
     copy_file 'initializer.rb', 'config/initializers/facebooker2.rb'
 
-    include = application_type == 'regular' ? 'Facebooker2::Rails::Controller' : 'Facebooker2::Rails::Controller::CanvasOAuth'
-    puts <<-MSG
-      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    if application_type == 'regular'
+      puts <<-MSG
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-      Add the following line to your app/controllers/application_controller.rb:
+        Add the following line to your app/controllers/application_controller.rb:
 
-      include #{include}
+        include Facebooker2::Rails::Controller
 
-      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    MSG
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      MSG
+    else
+      puts <<-MSG
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        Add the following lines to your app/controllers/application_controller.rb:
+
+        include Facebooker2::Rails::Controller::CanvasOAuth
+
+        ensure_canvas_connected_to_facebook :oauth_url, 'publish_stream'
+        create_facebook_oauth_callback :oauth
+
+        rescue_from Facebooker2::OAuthException do |exception|
+          redirect_to 'http://www.facebook.com/'
+        end
+
+        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      MSG
+    end
   end
 end
