@@ -12,8 +12,8 @@ module Rack
     def call(env)
       request = Request.new(env)
       
-      if request.POST['signed_request']
-        env["REQUEST_METHOD"] = 'GET'
+      if request.POST['signed_request'] && request.params['_method'].blank?
+        env['REQUEST_METHOD'] = 'GET'
       end
       
       return @app.call(env)
