@@ -70,12 +70,12 @@ module Facebooker2
             JAVASCRIPT
             
             js = <<-CODE
-              <div id='fb-root'></div>
+              <div id="fb-root"></div>
               <script type="text/javascript">#{ js }</script>
             CODE
           else
             js = <<-CODE
-              <div id='fb-root'></div>
+              <div id="fb-root"></div>
               <script src="http://#{ js_url }" type="text/javascript"></script>
             CODE
             

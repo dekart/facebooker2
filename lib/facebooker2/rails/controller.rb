@@ -96,6 +96,8 @@ module Facebooker2
           
           hash[parts.first] = parts.last
         end
+        
+        hash
       end
       
       def fb_cookie?

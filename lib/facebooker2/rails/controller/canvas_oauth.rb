@@ -13,9 +13,9 @@ module Facebooker2
             # under the Authentication docs at http://developers.facebook.com/docs/authentication/)
             if params[:code]
               begin
-                redirect_to Facebooker2.canvas_page_url + facebook_url_encryptor.decrypt(params[:fb_return_to])
+                redirect_to Facebooker2.canvas_page_url + facebook_url_encryptor.decrypt(params[:fb_return_to].to_s)
               rescue ActiveSupport::MessageEncryptor::InvalidMessage
-                Rails.logger.fatal "Failed to decrypt return URL: #{ params[:fb_return_to] }"
+                ::Rails.logger.fatal "Failed to decrypt return URL: #{ params[:fb_return_to] }"
                 
                 redirect_to Facebooker2.canvas_page_url
               end

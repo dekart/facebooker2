@@ -13,6 +13,11 @@ describe Facebooker2::Rails::Controller do
   let :controller do
     controller = FakeController.new
     controller.stub!(:params).and_return({})
+    controller.stub!(:request).and_return(
+      mock('environment variables', 
+        :env => {'HTTP_SIGNED_REQUEST' => 'N1JJFILX63MufS1zpHZwN109VK1ggzEsD0N4pH-yPtc.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImV4cGlyZXMiOjEyNzk4MjE2MDAsIm9hdXRoX3Rva2VuIjoiMTAzMTg4NzE2Mzk2NzI1fDIucnJRSktyRzFRYXpGYTFoa2Z6MWpMZ19fLjM2MDAuMTI3OTgyMTYwMC01MzI4Mjg4Njh8TWF4QVdxTWtVS3lKbEFwOVgwZldGWEF0M004LiIsInVzZXJfaWQiOiI1MzI4Mjg4NjgifQ'}
+      )
+    )
     controller.stub!(:cookies).and_return("fbs_12345"=>"\"access_token=114355055262088|57f0206b01ad48bf84ac86f1-12451752|63WyZjRQbzowpN8ibdIfrsg80OA.&expires=0&secret=1e3375dcc4527e7ead0f82c095421690&session_key=57f0206b01ad48bf84ac86f1-12451752&sig=4337fcdee4cc68bb70ec495c0eebf89c&uid=12451752\"")
     controller
   end

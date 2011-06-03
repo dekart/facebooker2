@@ -37,4 +37,16 @@ require 'spec/rails/interop/testcase'
 
 Spec::Example::ExampleGroupFactory.default(ActiveSupport::TestCase)
 
-
+class Rails
+  def self.env
+    'spec'
+  end
+  
+  def self.root
+    Pathname.new(File.dirname(__FILE__))
+  end
+  
+  def self.logger
+    Logger.new(STDOUT)
+  end
+end

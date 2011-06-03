@@ -4,23 +4,25 @@ describe Facebooker2::Rails::Helpers::Javascript, :type=>:helper do
   describe "fb_connect_async_js" do
     it "loads with defaults" do
       js = fb_connect_async_js '12345'
-      js.should == <<-JAVASCRIPT   
+      js.gsub(/\s+/, ' ').should == <<-JAVASCRIPT.gsub!(/\s+/, ' ')
           <div id="fb-root"></div>
-          <script>
+          <script type="text/javascript">
             window.fbAsyncInit = function() {
               FB.init({
                 appId  : '12345',
                 status : true, // check login status
                 cookie : true, // enable cookies to allow the server to access the session
                 
-                xfbml  : true  // parse XFBML
+                xfbml  : true,  // parse XFBML
+                channelUrl : 'null'
               });
               
             };
 
             (function() {
-              var e = document.createElement('script'); e.async = true;
+              var e = document.createElement('script'); 
               e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+              e.async = true;
               document.getElementById('fb-root').appendChild(e);
             }());
           </script>

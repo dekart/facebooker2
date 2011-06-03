@@ -52,7 +52,7 @@ module Facebooker2
 
           concat(
             content_tag('fb:serverFbml',
-              content_tag(:script, content.html_safe, :type => 'text/fbml'),
+              content_tag(:script, content.try(:html_safe) || content, :type => 'text/fbml'),
               :style => style
             )
           )
