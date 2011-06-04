@@ -76,7 +76,7 @@ module Facebooker2
           else
             js = <<-CODE
               <div id="fb-root"></div>
-              <script src="http://#{ js_url }" type="text/javascript"></script>
+              <script src="#{request.protocol}#{ js_url }" type="text/javascript"></script>
             CODE
             
             if options[:cache_url]

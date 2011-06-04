@@ -14,6 +14,8 @@ module Facebooker2
         controller.helper_method :current_facebook_client
         controller.helper_method :facebook_params
         controller.helper_method :facebook_signed_request
+        controller.helper_method :facebook_canvas_page_url
+        controller.helper_method :facebook_callback_url
       end
 
 
@@ -262,6 +264,16 @@ module Facebooker2
       def set_p3p_header_for_third_party_cookies
         response.headers['P3P'] = 'CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"'
       end
+      
+      
+      def facebook_canvas_page_url
+        Facebooker2.canvas_page_url(request.protocol)
+      end
+      
+      def facebook_callback_url
+        Facebooker2.callback_url(request.protocol)
+      end
+      
 
       # Appends facebook signed_request to params on redirect
       def redirect_to(options = {}, response_status = {})

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 class FakeCanvasOAuthController < ActionController::Base
-  include Facebooker2::Rails::Controller::CanvasOAuth
+  include Facebooker2::Rails::Controller
 
   before_filter :check_connection_and_permissions
   
@@ -21,7 +21,9 @@ describe Facebooker2::Rails::Controller::CanvasOAuth do
   end
 
   let :controller do
-    FakeCanvasOAuthController.new
+    FakeCanvasOAuthController.new.tap do |controller|
+      controller.stub!(:request).and_return(mock('request', :protocol => 'http://'))
+    end
   end
 
   describe "should extend with OAuth class methods" do
