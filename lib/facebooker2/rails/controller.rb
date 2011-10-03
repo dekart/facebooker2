@@ -46,8 +46,8 @@ module Facebooker2
       def fetch_client_and_user
         unless @_fb_user_fetched
           # Try to authenticate from the signed request first
-          fetch_client_and_user_from_signed_request
-          fetch_client_and_user_from_cookie if @_current_facebook_client.nil? and !signed_request_from_logged_out_user?
+          sig = fetch_client_and_user_from_signed_request
+          sig = fetch_client_and_user_from_cookie if @_current_facebook_client.nil? and !signed_request_from_logged_out_user?
         
           #write the authentication params to a new cookie
           if !@_current_facebook_client.nil? 
