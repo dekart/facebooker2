@@ -48,7 +48,7 @@ module Facebooker2
               status : #{options[:status]}, // check login status
               cookie : #{options[:cookie]}, // enable cookies to allow the server to access the session
               xfbml  : #{options[:xfbml]},  // parse XFBML
-              oauth  : #{options[:oauth]}
+              oauth  : #{options[:oauth]},
               channelUrl : '#{ options[:channel_url] || 'null' }'
             });
           JAVASCRIPT
